@@ -1,0 +1,133 @@
+{
+  "title": "Welcome",
+  "description": "This is your app.",
+  "home_messages_section_1": {
+    "messages": [
+      "Intelligence in Information Technology",
+      "A.I - Artificial Intelligence - Automation, Development, and Testing.",
+      "Intelligence in Monitoring",
+      "Consulting to help your company achieve success stories!",
+      "Stop worrying about demand — we bring the resources needed to meet it!"
+    ]
+  },
+  "head_menu": [
+    "Home",
+    "About Us",
+    "Products & Services",
+    "Clients",
+    "Contact"
+  ],
+  "section_1": "Clients who are part of our story",
+  "section_2": [
+    "Always Up-to-Date",
+    "Unlock your company's potential by adopting modern methodologies and frameworks",
+    "for work."
+  ],
+  "tabs": {
+    "TabStyleOne": [
+      {
+        "title": "Scrum is an agile methodology that helps you:",
+        "text": "Scrum",
+        "subItem": [
+          { "text": "Optimize processes within your team" },
+          { "text": "Increase your productivity" },
+          { "text": "Plan and execute without surprises" },
+          { "text": "Accelerate and mature your production & operations" }
+        ]
+      },
+      {
+        "title": "Lean may be best suited for:",
+        "text": "Lean",
+        "subItem": [
+          { "text": "Smaller, more goal-focused projects" },
+          { "text": "Startups and production lines" },
+          { "text": "Focus on waste elimination" },
+          { "text": "Short cycles and continuous improvement" }
+        ]
+      },
+      {
+        "title": "Kanban can help you with:",
+        "text": "Kanban",
+        "subItem": [
+          { "text": "Workflow visualization" },
+          { "text": "Limiting work in progress (WIP)" },
+          { "text": "Continuous and incremental delivery" },
+          { "text": "Continuous improvement based on metrics" }
+        ]
+      },
+      {
+        "title": "Text generating AI refers to artificial intelligence.",
+        "text": "FDD",
+        "subItem": [
+          { "text": "Transformer Models" },
+          { "text": "Conditional Generative Models" },
+          { "text": "Pre-trained Models" },
+          { "text": "Variational Autoencoders" }
+        ]
+      }
+    ],
+    "advanceTab": [
+      {
+        "menuText": "AI Consulting",
+        "subTitle": "Solutions with Artificial Intelligence",
+        "title": "Transformation with Artificial Intelligence",
+        "desc": "We offer strategic AI consulting to boost automation, data analysis, and innovation in corporate processes."
+      },
+      {
+        "menuText": "Monitoring and Observability",
+        "subTitle": "Intelligent Operational Visibility",
+        "title": "Monitor Your Infrastructure Accurately",
+        "desc": "We implement monitoring and observability solutions to ensure performance, security, and continuity in IT environments."
+      },
+      {
+        "menuText": "IT Outsourcing",
+        "subTitle": "Efficiency with Dedicated Resources",
+        "title": "On-Demand Support and Resources",
+        "desc": "We help your company scale with agility by allocating specialists and continuous support for IT demands."
+      },
+      {
+        "menuText": "Operations Consulting",
+        "subTitle": "Process and System Optimization",
+        "title": "Operational Excellence in IT",
+        "desc": "We support operational transformation with agile methodologies and technologies that enhance your business's efficiency and resilience."
+      }
+    ]
+  },
+  "button_text": "Try it Out",
+  "section_3": {
+    "subtitle": "Who are we?",
+    "new_subtitle": "We Are the"
+  },
+  "section_4": [
+    "Service Integration with AI",
+    "Chatbots, Outsourcing, Custom Solutions",
+    "for you!"
+  ],
+  "serviceOne": [
+    {
+      "title": "What do we do?",
+      "desc": "Digital transformation aligned with the best technologies!"
+    },
+    {
+      "title": "Experience aligned with efficiency!",
+      "desc": "Founded in 2012, our core principle is customer centricity to help your business grow."
+    },
+    {
+      "title": "How do we work?",
+      "desc": "We use digital transformation aligned with the top technologies on the market."
+    },
+    {
+      "title": "Operational Cost Reduction",
+      "desc": "We use FinOps and other methodologies to reduce costs."
+    },
+    {
+      "title": "Process Automation",
+      "desc": "We believe automation aligned with well-structured processes is key to your business growth."
+    },
+    {
+      "title": "Simplified Problem Solving",
+      "desc": "Thinking outside the box."
+    }
+  ]
+}
+

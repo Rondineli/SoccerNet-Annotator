@@ -1,0 +1,133 @@
+{
+  "title": "Bienvenido",
+  "description": "Esta es tu aplicación.",
+  "home_messages_section_1": {
+    "messages": [
+        "Inteligencia en Tecnología de la Información",
+        "I.A - Inteligencia Artificial - Automatización, Desarrollo y Pruebas.",
+        "Inteligencia en Monitoreo",
+        "Consultoría para que tu empresa logre casos de éxito.",
+        "¡Deja de preocuparte por la demanda, nosotros traemos los recursos necesarios para cubrirla!"
+    ]
+  },
+  "head_menu": [
+    "Inicio",
+    "Sobre Nosotros",
+    "Productos & Servicios",
+    "Clientes",
+    "Contacto"
+  ],
+  "section_1": "Clientes que forman parte de nuestra historia",
+  "section_2": [
+    "Siempre Actualizados",
+    "Desbloquea el potencial de tu empresa adoptando metodologías y frameworks modernos",
+    "de trabajo."
+  ],
+  "tabs": {
+    "TabStyleOne": [
+      {
+        "title": "Scrum es una metodología ágil que te ayuda a:",
+        "text": "Scrum",
+        "subItem": [
+          { "text": "Optimizar procesos dentro de tu equipo" },
+          { "text": "Aumentar tu productividad" },
+          { "text": "Planear y ejecutar sin sorpresas" },
+          { "text": "Acelerar y madurar tu producción y operación" }
+        ]
+      },
+      {
+        "title": "Lean puede ser más adecuado para:",
+        "text": "Lean",
+        "subItem": [
+          { "text": "Proyectos reducidos y enfocados en objetivos" },
+          { "text": "Startups y líneas de producción" },
+          { "text": "Enfoque en la eliminación de desperdicios" },
+          { "text": "Ciclos cortos y mejora continua" }
+        ]
+      },
+      {
+        "title": "Kanban puede ayudarte en:",
+        "text": "Kanban",
+        "subItem": [
+          { "text": "Visualización del flujo de trabajo" },
+          { "text": "Limitación del trabajo en curso (WIP)" },
+          { "text": "Entrega continua e incremental" },
+          { "text": "Mejora continua basada en métricas" }
+        ]
+      },
+      {
+        "title": "La IA generadora de texto se refiere a inteligencia artificial.",
+        "text": "FDD",
+        "subItem": [
+          { "text": "Modelos Transformer" },
+          { "text": "Modelos Generativos Condicionales" },
+          { "text": "Modelos Preentrenados" },
+          { "text": "Autoencoders Variacionales" }
+        ]
+      }
+    ],
+    "advanceTab": [
+      {
+        "menuText": "Consultoría en I.A.",
+        "subTitle": "Soluciones con Inteligencia Artificial",
+        "title": "Transformación con Inteligencia Artificial",
+        "desc": "Ofrecemos consultoría estratégica en IA para impulsar la automatización, el análisis de datos y la innovación en procesos empresariales."
+      },
+      {
+        "menuText": "Monitoreo y Observabilidad",
+        "subTitle": "Visibilidad Operativa Inteligente",
+        "title": "Monitorea tu Infraestructura con Precisión",
+        "desc": "Implementamos soluciones de monitoreo y observabilidad para garantizar el rendimiento, la seguridad y la continuidad en entornos de TI."
+      },
+      {
+        "menuText": "Outsourcing de TI",
+        "subTitle": "Eficiencia con Recursos Dedicados",
+        "title": "Soporte y Recursos Bajo Demanda",
+        "desc": "Ayudamos a tu empresa a escalar con agilidad mediante la asignación de especialistas y soporte continuo para demandas de TI."
+      },
+      {
+        "menuText": "Consultoría en Operaciones",
+        "subTitle": "Optimización de Procesos y Sistemas",
+        "title": "Excelencia Operativa en TI",
+        "desc": "Apoyamos la transformación operativa con metodologías ágiles y tecnologías que aumentan la eficiencia y resiliencia de tu negocio."
+      }
+    ]
+  },
+  "button_text": "Saber Más",
+  "section_3": {
+    "subtitle": "¿Quiénes somos?",
+    "new_subtitle": "Nosotros Somos la"
+  },
+  "section_4": [
+    "Integración de servicios con IA",
+    "Chatbots, Outsourcing, soluciones personalizadas",
+    "¡para ti!"
+  ],
+  "serviceOne": [
+    {
+      "title": "¿Qué hacemos?",
+      "desc": "Transformación digital alineada con las mejores tecnologías."
+    },
+    {
+      "title": "¡Experiencia alineada con eficiencia!",
+      "desc": "Fundada en 2012, nuestra premisa es el enfoque en el cliente para impulsar el crecimiento de tu negocio."
+    },
+    {
+      "title": "¿Cómo trabajamos?",
+      "desc": "Utilizamos la transformación digital con las mejores tecnologías del mercado."
+    },
+    {
+      "title": "Reducción de Costos Operativos",
+      "desc": "Aplicamos FinOps y otras metodologías para disminuir costos."
+    },
+    {
+      "title": "Automatización de Procesos",
+      "desc": "Creemos que la automatización, junto con procesos bien definidos, es clave para el crecimiento de tu negocio."
+    },
+    {
+      "title": "Resolución Simplificada de Problemas",
+      "desc": "Pensamos fuera de lo convencional."
+    }
+  ]
+}
+

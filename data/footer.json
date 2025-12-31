@@ -1,0 +1,68 @@
+{
+  "footer": [
+    {
+      "links": [
+        {
+          "title": "Qucik Links",
+          "innerItem": [
+            {
+              "link": "#",
+              "text": "Pages"
+            },
+            {
+              "link": "/blog",
+              "text": "Blog"
+            },
+            {
+              "link": "/contact",
+              "text": "Contact"
+            },
+            {
+              "link": "/utilize",
+              "text": "How to use"
+            },
+            {
+              "link": "/roadmap",
+              "text": "Roadmap"
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "title": "Services",
+          "innerItem": [
+            {
+              "link": "/image-generator",
+              "text": "Image Generator"
+            },
+            {
+              "link": "/vedio-generator",
+              "text": "Video Generator"
+            },
+            {
+              "link": "/text-generator",
+              "text": "Text Generator"
+            },
+            {
+              "link": "/code-generator",
+              "text": "Code Generator"
+            },
+            {
+              "link": "#",
+              "text": "Education Feedback"
+            }
+          ]
+        }
+      ],
+      "contact": [
+        {
+          "location_sp": "Av. Sagitário, 138 - 19° Andar Torre London - Alpha Square Mall - Alphaville - Barueri SP",
+          "location_sc": "Rua Dom Jaime Câmara, 170 - Sala 204 - Centro - Florianópolis SC",
+          "mail": "contato@weai.com.br",
+          "number": "+55 (11) 4193-9020"
+        }
+      ]
+    }
+  ]
+}
