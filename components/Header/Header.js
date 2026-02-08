@@ -47,25 +47,6 @@ const Header = ({ headerTransparent, headerSticky, menuText, btnClass }) => {
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logo">
                 <Link href="/">
-                  {isLightTheme ? (
-                    <Image
-                      className="logo-light"
-                      src={logo}
-                      width={width}
-                      height={height}
-                      priority={true}
-                      alt="Weai Logo"
-                    />
-                  ) : (
-                    <Image
-                      className="logo-light"
-                      src={logoDark}
-                      width={width}
-                      height={height}
-                      priority={true}
-                      alt="Weai Logo"
-                    />
-                  )}
                 </Link>
               </div>
             </div>
@@ -78,14 +59,6 @@ const Header = ({ headerTransparent, headerSticky, menuText, btnClass }) => {
 
             <div className="col-lg-2 col-md-6 col-6 position-static">
               <div className="header-right">
-                <div className="header-btn">
-                  <LanguageSwitcher
-                    onChange={(locale) => {
-                      console.log('Switched to locale:', locale);
-                    }}
-                    btnClass={`${btnClass}`}
-                  />
-                </div>
 
                 <div className="mobile-menu-bar ml--5 d-flex justify-content-end d-lg-none">
                   <div className="hamberger">

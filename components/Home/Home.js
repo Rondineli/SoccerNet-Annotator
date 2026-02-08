@@ -4,8 +4,6 @@ import Image from "next/image";
 import Sal from "sal.js";
 
 
-import PricingData from "../../data/pricing.json";
-
 import SplitImg from "../../public/images/split/split-2.png";
 //import SplitLogo from "../../public/images/split/split-2-logo.png";
 
@@ -15,8 +13,6 @@ import SplitLogo from "../../public/images/logo/white_logo_black_background__1bg
 import DarkSplitImg from "../../public/images/light/split/split-2.png";
 //import DarkSplitLogo from "../../public/images/light/split/split-2-logo.png";
 
-import bannerImg from "../../public/images/bg/slider-main-image.png";
-import bannerWhiteImg from "../../public/images/light/bg/slider-main-image.png";
 import shapeOne from "../../public/images/bg/icon-shape/icon-shape-one.png";
 import shapeTwo from "../../public/images/bg/icon-shape/icon-shape-two.png";
 import shapeThree from "../../public/images/bg/icon-shape/icon-shape-three.png";
@@ -24,18 +20,7 @@ import shapeFour from "../../public/images/bg/icon-shape/icon-shape-four.png";
 import bgShape from "../../public/images/bg/split-bg-shape.png";
 import bgShapeOne from "../../public/images/bg/bg-shape-four.png";
 import bgShapeTwo from "../../public/images/bg/bg-shape-five.png";
-import bgShapeThree from "../../public/images/bg/bg-shape-two.png";
 
-import BrandList from "../Brands/BrandList";
-import TabStyleOne from "../TabStyles/TabStyle-One";
-import ServiceStyleOne from "../Services/ServiceStyle-One";
-import AdvanceTab from "../TabStyles/AdvanceTab";
-import CtaOne from "../CallToActions/Cta-One";
-import Pricing from "../Pricing/Pricing";
-import ServiceTwo from "../Services/Service-Two";
-import Testimonial from "../Testimonials/Testimonial";
-import BrandTwo from "../Brands/Brand-Two";
-import CtaTwo from "../CallToActions/Cta-Two";
 import { useAppContext } from "@/context/Context";
 
 const _messages = [
@@ -172,32 +157,32 @@ const Home = ({messagesText, sectionsText}) => {
                     </span>
                   </span>
                 </span>
-                  <span className="inner mt-4">
-                    <span className="cd-headline rotate-1">
-                      <span className="cd-words-wrapper block text-6xl sm:text-6xl lg:text-5xl force-center">
-                        {messages.map((item, idx) => (
-                          <b key={idx} className={`${visibleIndex === idx ? 'is-visible' : 'is-hidden'}`}>
-                            <p style={{
-                              margin: 0,
-                              textAlign: 'center',
-                              wordBreak: 'break-word',
-                              whiteSpace: 'normal',
-                              maxWidth: '90vw',
-                            }} className={"force-center"}>
-                              {item.text}
-                            </p>
-                            <Image
-                              src={isLightTheme ? item.image : item.image_light}
-                              width={width}
-                              height={heitgh}
-                              alt={item.alt}
-                              style={{ marginTop: "8px" }}
-                            />
-                          </b>
-                        ))}
-                      </span>
+                <span className="inner mt-4">
+                  <span className="cd-headline rotate-1">
+                    <span className="cd-words-wrapper block text-6xl sm:text-6xl lg:text-5xl force-center">
+                      {messages.map((item, idx) => (
+                        <b key={idx} className={`${visibleIndex === idx ? 'is-visible' : 'is-hidden'}`}>
+                          <p style={{
+                            margin: 0,
+                            textAlign: 'center',
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            maxWidth: '90vw',
+                          }} className={"force-center"}>
+                            {item.text}
+                          </p>
+                          <Image
+                            src={isLightTheme ? item.image : item.image_light}
+                            width={width}
+                            height={heitgh}
+                            alt={item.alt}
+                            style={{ marginTop: "8px" }}
+                          />
+                        </b>
+                      ))}
                     </span>
                   </span>
+                </span>
                 <div className="inner-shape">
                   <Image
                     src={shapeOne}
@@ -322,7 +307,6 @@ const Home = ({messagesText, sectionsText}) => {
             </div>
             <div className="row">
               <div className="col-lg-12 mt--10">
-                <BrandList />
               </div>
             </div>
           </div>

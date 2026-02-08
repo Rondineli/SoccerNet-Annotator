@@ -17,63 +17,12 @@ const Footer = () => {
               <div className="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div className="rainbow-footer-widget">
                   <div className="logo">
-                    <Link href="/">
-                      <Image
-                        style={{ width: 235, height: 65 }}
-                        className="logo-light"
-                        src={logo}
-                        width={235}
-                        height={65}
-                        alt="ChatBot Logo"
-                      />
-                    </Link>
                   </div>
                   <p className="b1 desc-text">
                     It has long been known that a reader's <br /> attention will
                     be diverted from{" "}
                   </p>
-                  <h6 className="subtitle">Join a Newsletter</h6>
-                  <form className="newsletter-form" action="#">
-                    <div className="form-group">
-                      <input type="email" placeholder="Enter Your Email Here" />
-                      <button
-                        className="btn-default bg-solid-primary"
-                        type="submit"
-                      >
-                        <i className="fa-sharp fa-regular fa-arrow-right"></i>
-                      </button>
-                    </div>
-                  </form>
                 </div>
-              </div>
-
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-              {FooterData && FooterData.footer.map((data, index) => (
-                    <>
-                    {data.contact.map((inner, i) => (
-                      <>
-                      <i key={i} className="contact-icon fa-regular fa-location-dot"></i>{" "}
-                      <Link href="#"><bold>Endereço São Paulo:{" "}</bold><br/>{inner.location_sp}</Link>
-                      </>
-                    ))}
-                    </>
-                  ))}
-              </div>
-
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <div className="rainbow-footer-widget" >
-                  {FooterData && FooterData.footer.map((data, index) => (
-                    <>
-                    {data.contact.map((inner, i) => (
-                      <>
-                      <i key={i} className="contact-icon fa-regular fa-location-dot"></i>{" "}
-                      <Link href="#"><bold>Endereço Santa Catarina:{" "}</bold><br/>{inner.location_sc}</Link>
-                      </>
-                    ))}
-                    </>
-                  ))}
-                </div>
-
               </div>
 
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">

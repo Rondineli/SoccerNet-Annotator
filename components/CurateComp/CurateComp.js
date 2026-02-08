@@ -71,6 +71,8 @@ export default function CurateComp() {
   const [segments, setSegments] = useState([]);
   const [lastEvent, setLastEvent] = useState({});
 
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+
   const [gameData, setGameData] = useState({
     UrlLocal: "",
     UrlYoutube: "",
@@ -167,6 +169,10 @@ export default function CurateComp() {
     const r = s % 60;
     return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
   };
+
+  function soccernetPositionToSecondsInt(positionMs) {
+    return Math.floor(positionMs / 1000);
+  }
 
   const saveEdit = () => {
     try {
@@ -266,7 +272,7 @@ export default function CurateComp() {
     setLastEvent(existing[existing.length-1])
   }, [videoUrl]);
 
-  // ----- actions -----
+  // Play hook whe a new url is set
   const togglePlay = () => {
     if (isExternalPlayer(videoUrl)) {
       setPlaying((p) => !p); // ReactPlayer listens to this prop
@@ -285,6 +291,7 @@ export default function CurateComp() {
 
   const seekTo = (seconds) => {
     if (!Number.isFinite(seconds) || !videoRef.current) return;
+    console.log(`SeekTo invoked: => ${seconds}`)
   
     if (isExternalPlayer(videoUrl)) {
       playerRef.current?.seekTo(seconds, "seconds");
@@ -554,8 +561,6 @@ export default function CurateComp() {
         <Button variant="outlined" onClick={handleSeekForward}>
           +{backSeconds}s
         </Button>
-
-        
             <Stack>
                 <Typography variant="title" sx={{ ml: 2 }}>
                     Seconds: {Math.floor(currentTime)}s / {Math.floor(duration)}s
@@ -580,6 +585,15 @@ export default function CurateComp() {
             value={Math.min(currentTime, duration)}
             onChange={(_, value) => seekTo(value)}
         />
+        <>
+          <EditIcon />
+          <Button variant="outlined" onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}>Show avanced properties</Button>
+        </>
+        {
+          showAdvancedOptions && (
+            <TextField type="number" onChange={(e) => seekTo(soccernetPositionToSecondsInt(e.target.value))} label={"Go to positions (ms)"} placeholder="Start typing…" />
+          )
+        }
       </Paper>
 
       <div sx={{ mb: 2 }} style={{ gap: 20 }}>

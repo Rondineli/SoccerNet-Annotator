@@ -33,6 +33,12 @@
       "text": "Home"
     },
     {
+      "link": "/process",
+      "isIcon": false,
+      "isMenu": false,
+      "text": "Process"
+    },
+    {
       "link": "#about-us",
       "text": "Quem Somos",
       "isIcon": false,
