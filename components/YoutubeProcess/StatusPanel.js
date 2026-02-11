@@ -18,13 +18,6 @@ import {
   Box,
 } from "@mui/material";
 
-/*
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import LoopIcon from '@mui/icons-material/Loop';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-*/
-
 import { useAppContext } from "@/context/Context";
 
 const INTERVAL_UPDATE=9000;
@@ -77,6 +70,9 @@ function VideosPage({videoUrls}) {
 
   return (
       <Grid container spacing={4} justifyContent="center">
+        {videoUrls.length === 0 && (
+          <h4> No clips or results from inference, try another id....</h4>
+        )}
         {videoUrls?.map((videoUrl) => (
           <Grid item xs={12} sm={12} md={12} key={videoUrl}>
             <Card sx={{ display: "flex", flexDirection: "column" }}>
@@ -86,7 +82,7 @@ function VideosPage({videoUrls}) {
                   controls
                   preload="metadata"
                   style={{
-                    position: "flex",
+                    position: "absolute",
                     top: 0,
                     left: 0,
                     width: "100%",
@@ -96,6 +92,7 @@ function VideosPage({videoUrls}) {
                   <source src={videoUrl} type="video/mp4" />
                 </video>
               </Box>
+
               <CardContent>
                 <Typography variant="h6" component="div">
                   {getLabelSecondsName(videoUrl)}
@@ -152,18 +149,14 @@ export default function StatusPanel({ loading, data, modelType }) {
     );
   
     if (lastIndex === -1) return [phases[0]];
-
-    console.log(`[DEBUG]:: => ${lastIndex} as lastIndex set.`)
   
     const g = phases.slice(0, lastIndex + 1);
-    console.log(`[DEBUG]:: => ${JSON.stringify(g)} as g set.`)
     return g;
   };
 
   const getIcons = (status) => {
     if (!status) { return }
 
-    // setIconIndex(statusIcon[status] || "🔄")
     return statusIcon[status]
   }
 
@@ -196,9 +189,9 @@ export default function StatusPanel({ loading, data, modelType }) {
 
   
 
-  if (data[envModelSet]?.s3_objects_list && data[envModelSet].s3_objects_list.length > 0) {
+  if ((data[envModelSet]?.s3_objects_list && data[envModelSet].s3_objects_list.length > 0)  || data.status === "finished") {
     return (
-      <div className="col-lg-12 d-flex justify-content-center align-items-center">
+      <div className="col-lg-12 d-flex justify-content-center align-items-center" style={{ height: '100vh', top: "100px" }}>
         <VideosPage videoUrls={data[envModelSet]?.s3_objects_list} />
       </div>
     )
