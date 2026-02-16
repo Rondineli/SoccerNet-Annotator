@@ -35,6 +35,10 @@ export function startDownload(jobId, videoUrl) {
     }
   });
 
+  child.stderr.on("data", (data) => {
+    console.error("yt-dlp stderr:", data.toString());
+  });
+
   child.on("close", () => {
     jobs[jobId].status = "done";
     saveJobs(jobs);

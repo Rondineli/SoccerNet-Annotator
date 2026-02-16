@@ -60,53 +60,76 @@ function VideosPage({videoUrls}) {
 
   const getLabelSecondsName = (videoName) => {
     const nameWithoutExt = videoName.replace(/\.[^/.]+$/, "");
-
-    // 2. Split by underscores
     const parts = nameWithoutExt.split("_");
-    return `${parts[1]} ${parts[2]}`;
+
+    const label = parts[1].split(":")[1];
+    const time = parts[2].split("s:")[1];
+
+    const conf = parts[3].split(":")[1];
+
+    
+    return `${label} ${time} ${parseFloat(conf).toFixed(3)}`;
+  }
+
+  const getConfidenceCut = (videoName) => {
+    const nameWithoutExt = videoName.replace(/\.[^/.]+$/, "");
+    const parts = nameWithoutExt.split("_");
+    const conf = parts[3].split(":")[1];
+    const parsedConf = parseFloat(conf);
+    console.log(`Validating: ${videoName} confidences: ${parsedConf}, should display: ${parseFloat(conf) >= parseFloat(0.01)}`)
+    return parseFloat(conf) >= parseFloat(0.01);
   }
 
   console.log(`f===> ${JSON.stringify(videoUrls)}`)
 
   return (
-      <Grid container spacing={4} justifyContent="center">
+    <Grid container spacing={4} justifyContent="center" sx={{ overflow: "visible" }} style={{ marginTop: "200px"}}>
         {videoUrls.length === 0 && (
           <h4> No clips or results from inference, try another id....</h4>
         )}
-        {videoUrls?.map((videoUrl) => (
-          <Grid item xs={12} sm={12} md={12} key={videoUrl}>
-            <Card sx={{ display: "flex", flexDirection: "column" }}>
+        {videoUrls
+          ?.filter((videoUrl) => getConfidenceCut(videoUrl))
+          .map((videoUrl) => (
+            <Grid item xs={12} sm={12} md={12} key={videoUrl}>
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  overflow: "visible"
+                }}
+              >
+                <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
+                  <video
+                    controls
+                    preload="metadata"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      zIndex: 10
+                    }}
+                  >
+                    <source src={videoUrl} type="video/mp4" />
+                  </video>
+                </Box>
 
-              <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
-                <video
-                  controls
-                  preload="metadata"
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                  }}
-                >
-                  <source src={videoUrl} type="video/mp4" />
-                </video>
-              </Box>
-
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  {getLabelSecondsName(videoUrl)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    {getLabelSecondsName(videoUrl)}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          )
+        )}
       </Grid>
   );
 }
 
 
-export default function StatusPanel({ loading, data, modelType }) {
+export default function StatusPanel({ loading, data, modelType}) {
 
   const [messages, setMessages] = useState(_messages);
   const [visibleIndex, setVisibleIndex] = useState(0);
@@ -191,7 +214,7 @@ export default function StatusPanel({ loading, data, modelType }) {
 
   if ((data[envModelSet]?.s3_objects_list && data[envModelSet].s3_objects_list.length > 0)  || data.status === "finished") {
     return (
-      <div className="col-lg-12 d-flex justify-content-center align-items-center" style={{ height: '100vh', top: "100px" }}>
+      <div className="col-lg-12 d-flex justify-content-center align-items-center">
         <VideosPage videoUrls={data[envModelSet]?.s3_objects_list} />
       </div>
     )

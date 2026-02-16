@@ -19,6 +19,9 @@ export default function HomePage() {
   const [id, setId] = useState("");
   const [onCenter, setOnCenter] = useState(true);
   const [modelType, setModelType] = useState("json_soccernet_calf_resnetpca512_amateur_model_st_2");
+  const [styleHeight, setStyleHeigth] = useState({height: '100vh'});
+  const [styleHeightIdSearch, setStyleHeightIdSearch] = useState({height: '100vh'});
+
   const [retry, setRetry] = useState(true);
 
   const fetchStatus = async ({id, modelType}) => {
@@ -36,6 +39,7 @@ export default function HomePage() {
     }
     setId(id);
     setOnCenter(false);
+    //setStyleHeigth({height: '0'})
 
     try {
       const res = await fetch(`/api/videos/process`, {
@@ -55,8 +59,12 @@ export default function HomePage() {
 
       if (data.status === "finished") {
         setRetry(false);
+        setStyleHeigth({height: '0'})
+        setStyleHeightIdSearch({height: '0'})
       } else {
         setRetry(true);
+        setStyleHeigth({height: '100vh'})
+        setStyleHeightIdSearch({height: '0'})
       }
 
       setStatusData(data);
@@ -96,6 +104,7 @@ export default function HomePage() {
             >
               <div
                 className="row justify-content-center"
+                style={styleHeightIdSearch}
               >
                 <IdSearch
                   retry={retry}
@@ -105,10 +114,10 @@ export default function HomePage() {
                   setModelType={setModelType}
                 />
               </div>
-              <section id="results" style={{ width: "100%" }}>
+              <section id="results" style={{ width: "100%", marginTop: "30px" }} sx={{ pt: "100px"}}>
                 <div
                   className="container row col-lg-12 justify-content-center align-items-center"
-                  style={{ height: '100vh' }}
+                  style={{styleHeight}}
                 >
                   <StatusPanel
                     loading={loading}

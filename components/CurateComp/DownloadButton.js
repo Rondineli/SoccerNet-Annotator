@@ -7,7 +7,7 @@ import {
   LinearProgress,
 } from "@mui/material";
 
-export default function DownloadButton(youtubeUrl, setUrl) {
+export default function DownloadButton({youtubeUrl, setUrl}) {
   const [open, setOpen] = useState(false);
   const [jobId, setJobId] = useState(null);
   const [status, setStatus] = useState(null);

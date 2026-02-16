@@ -342,8 +342,13 @@ export default function CurateComp() {
   );
 
   const extractVideoId = (videoUrl) => {
-    const match = videoUrl.match(/\[([A-Za-z0-9_-]{11})\]/);
-    return match ? match[1] : null;
+    try {
+      const match = videoUrl.match(/\[([A-Za-z0-9_-]{11})\]/);
+      return match ? match[1] : null;
+    } catch(e) {
+      return videoUrl;
+    }
+    
   };
 
   const renderNative = () => (

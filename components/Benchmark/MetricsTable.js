@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import React from "react";
 
 import {
@@ -11,6 +12,49 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+
+import FetchModal from "./ModalConfig"
+
+function LegendItem({ color, label }) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Box
+        sx={{
+          width: 16,
+          height: 16,
+          backgroundColor: color,
+          borderRadius: 0.5,
+          border: "1px solid rgba(0,0,0,0.2)",
+        }}
+      />
+      <Typography variant="body2">{label}</Typography>
+    </Box>
+  );
+}
+
+
+function TableLegend() {
+  return (
+    <Paper
+      elevation={1}
+      sx={{
+        p: 2,
+        mb: 3,
+        display: "flex",
+        gap: 4,
+        alignItems: "center",
+        backgroundColor: "#fff",
+      }}
+    >
+      <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+        Legend:
+      </Typography>
+
+      <LegendItem color="#4caf50" label="Lower mAP" />
+      <LegendItem color="#f44336" label="Higher mAP" />
+    </Paper>
+  );
+}
 
 
 function mergeByLabel(tight = [], loose = []) {
@@ -83,47 +127,57 @@ const returnModelHumanTranslation = (model) => {
 }
 
 
-export default function MetricsTable({data}) {
+export default function MetricsTable({data, title, dataset}) {
+
+  const [highermAPLabel, setHighermAPLabel] = useState(0);
+  const [lowermAPLabel, setLowermAPLabel] = useState(0);
 
   const _mapColunms = Object.keys(data).sort();
   const _mapObjects = reorganizeByLabel(data);
 
-  const uniqueLabels = [...new Set(Object.values(data).map(v => v.label))];
-  console.log(`[DEBUG] => uniqueLabels: ${JSON.stringify(uniqueLabels)}`)
 
-  /*
-  {statusData ? (
-    Object.entries(statusData).map(([modelName, modelData]) => (
-      <div className="row justify-content-center" key={modelName}>
-        <MetricsTable
-          key={modelName}
-          modelName={modelName}
-          tight={modelData.tight}
-          loose={modelData.loose}
-        />
-      
-      </div>
+  useEffect(() => {
+    let highest = null;
+    let lowest = null;
+  
+    Object.entries(_mapObjects).forEach(([label, models]) => {
+      models.forEach((model) => {
+        // const value = model.loose?.Any || model.loose?.Unseen || model.loose?.Visible;
+        let value;
 
-  */
-  //const rows = mergeByLabel(tight, loose);
+        if (model.loose?.Any) {
+          value = model.loose?.Any
+        }
 
-  const idxController = (idx) => {
-    const g = {
-      0: "Goal",
-      1: "Kick-off",
-      2: "Average mAP"
-    }
-    return g[idx];
-  }
+        if (model.loose?.Any) {
+          value = model.loose?.Unseen
+        }
 
-  console.log(`[DEBUG] => row after merge: ${JSON.stringify(_mapObjects)}`)
-  console.log(`[DEBUG] => data ${JSON.stringify(data)}`)
+        if (model.loose?.Any) {
+          value = model.loose?.Visible
+        }
+  
+        if (value == null) return;
+  
+        if (!highest || value > highest.value) {
+          highest = { label, value };
+        }
+  
+        if (!lowest || value < lowest.value) {
+          lowest = { label, value };
+        }
+      });
+    });
+  
+    setHighermAPLabel(highest);
+    setLowermAPLabel(lowest);
+  }, [_mapObjects]);
+  
+
   return (
     <Box sx={{ mb: 6 }}>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Benchmark of SoccerNet models into Amateur fut11 dataset
-      </Typography>
-
+      <Typography variant="h6" sx={{ mb: 2 }}>{title}</Typography>
+      <FetchModal dataset={dataset}/>
       <TableContainer component={Paper} sx={{ backgroundColor: "#fff" }}>
         <Table sx={{borderCollapse: 'separate'}}>
         <TableHead>
@@ -135,7 +189,7 @@ export default function MetricsTable({data}) {
 
             {_mapColunms.map((model, subIdx) => (
               <TableCell
-                key={model}
+                key={returnModelHumanTranslation(model)}
                 align="center"
                 colSpan={6}     // 🔥 span subcolumns
                 sx={{
@@ -219,29 +273,251 @@ export default function MetricsTable({data}) {
                     {label}
                   </TableCell>
 
-                  <TableCell sx={{borderLeft: (theme) => `1px solid ${theme.palette.divider}` }} align="center">{dt1[0]?.loose?.Any}</TableCell>
-                  <TableCell align="center">{dt1[0]?.loose?.Unseen}</TableCell>
-                  <TableCell align="center">{dt1[0]?.loose?.Visible}</TableCell>
+                  <TableCell 
+                    sx={{
+                      borderLeft: (theme) => `1px solid ${theme.palette.divider}`,
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[0]?.loose?.Any
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[0]?.loose?.Any
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[0]?.loose?.Any}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[0]?.loose?.Unseen
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[0]?.loose?.Unseen
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[0]?.loose?.Unseen}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[0]?.loose?.Visible
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[0]?.loose?.Visible
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[0]?.loose?.Visible}</TableCell>
 
-                  <TableCell sx={{borderLeft: (theme) => `1px solid ${theme.palette.divider}` }} align="center">{dt1[0]?.tight?.Any}</TableCell>
-                  <TableCell align="center">{dt1[0]?.tight?.Unseen}</TableCell>
-                  <TableCell align="center">{dt1[0]?.tight?.Visible}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderLeft: (theme) => `1px solid ${theme.palette.divider}`,
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[0]?.tight?.Any
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[0]?.tight?.Any
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[0]?.tight?.Any}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[0]?.tight?.Unseen
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[0]?.tight?.Unseen
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[0]?.tight?.Unseen}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[0]?.tight?.Visible
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[0]?.tight?.Visible
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[0]?.tight?.Visible}</TableCell>
 
-                  <TableCell sx={{borderLeft: (theme) => `1px solid ${theme.palette.divider}` }} align="center">{dt1[1]?.loose?.Any}</TableCell>
-                  <TableCell align="center">{dt1[1]?.loose?.Unseen}</TableCell>
-                  <TableCell align="center">{dt1[1]?.loose?.Visible}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderLeft: (theme) => `1px solid ${theme.palette.divider}`,
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[1]?.loose?.Any
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[1]?.loose?.Any
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[1]?.loose?.Any}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[1]?.loose?.Unseen
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[1]?.loose?.Unseen
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[1]?.loose?.Unseen}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[1]?.loose?.Visible
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[1]?.loose?.Visible
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[1]?.loose?.Visible}</TableCell>
 
-                  <TableCell sx={{borderLeft: (theme) => `1px solid ${theme.palette.divider}` }} align="center">{dt1[1]?.tight?.Any}</TableCell>
-                  <TableCell align="center">{dt1[1]?.tight?.Unseen}</TableCell>
-                  <TableCell align="center">{dt1[1]?.tight?.Visible}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderLeft: (theme) => `1px solid ${theme.palette.divider}`,
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[1]?.tight?.Any
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[1]?.tight?.Any
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[1]?.tight?.Any}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[1]?.tight?.Unseen
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[1]?.tight?.Unseen
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[1]?.tight?.Unseen}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[1]?.tight?.Visible
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[1]?.tight?.Visible
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[1]?.tight?.Visible}</TableCell>
 
-                  <TableCell sx={{borderLeft: (theme) => `1px solid ${theme.palette.divider}` }} align="center">{dt1[2]?.loose?.Any}</TableCell>
-                  <TableCell align="center">{dt1[2]?.loose?.Unseen}</TableCell>
-                  <TableCell align="center">{dt1[2]?.loose?.Visible}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderLeft: (theme) => `1px solid ${theme.palette.divider}`,
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[2]?.loose?.Any
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[2]?.loose?.Any
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[2]?.loose?.Any}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[2]?.loose?.Unseen
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[2]?.loose?.Unseen
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[2]?.loose?.Unseen}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[2]?.loose?.Visible
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[2]?.loose?.Visible
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[2]?.loose?.Visible}</TableCell>
 
-                  <TableCell sx={{borderLeft: (theme) => `1px solid ${theme.palette.divider}` }} align="center">{dt1[2]?.tight?.Any}</TableCell>
-                  <TableCell align="center">{dt1[2]?.tight?.Unseen}</TableCell>
-                  <TableCell align="center">{dt1[2]?.tight?.Visible}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderLeft: (theme) => `1px solid ${theme.palette.divider}`,
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[2]?.tight?.Any
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[2]?.tight?.Any
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[2]?.tight?.Any}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[2]?.tight?.Unseen
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[2]?.tight?.Unseen
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[2]?.tight?.Unseen}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor:
+                        highermAPLabel?.label === label &&
+                        highermAPLabel?.value === dt1[2]?.tight?.Visible
+                          ? "#f44336"
+                          : lowermAPLabel?.label === label &&
+                            lowermAPLabel?.value === dt1[2]?.tight?.Visible
+                          ? "#4caf50"
+                          : "transparent",
+                    }}
+                    align="center"
+                  >{dt1[2]?.tight?.Visible}</TableCell>
                 </TableRow>
               </>
               
@@ -249,6 +525,7 @@ export default function MetricsTable({data}) {
           </TableBody>
         </Table>
       </TableContainer>
+      <TableLegend/>
     </Box>
   );
 }

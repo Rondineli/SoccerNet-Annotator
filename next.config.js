@@ -14,10 +14,11 @@ module.exports = {
             value:
               "default-src 'self'; " +
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://s.ytimg.com; " +
-              "style-src 'self' 'unsafe-inline'; " +
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
               "img-src 'self' data: https://i.ytimg.com; " +
               "media-src 'self' https://www.youtube.com https://d3tdwb735roscv.cloudfront.net;" +
               "frame-src https://www.youtube.com https://www.youtube-nocookie.com; " +
+              "font-src 'self' https://fonts.gstatic.com" +
               "connect-src 'self' https://www.youtube.com https://i.ytimg.com;",
           },
         ],
@@ -32,7 +33,7 @@ module.exports = {
     }
   },
   output: "standalone",
-  ...(isLocalDev ? {} : { assetPrefix: 'https://d7g76mg7wi6v8.cloudfront.net/v2.0.0' }),
+  ...(isLocalDev ? {} : { assetPrefix: 'https://d3tdwb735roscv.cloudfront.net/static/1.0.0' }),
   swcMinify: true,
   productionBrowserSourceMaps: true,
   outputFileTracing: true,
