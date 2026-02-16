@@ -15,6 +15,7 @@ import {
   Card,
   CardContent,
   Typography,
+  Slider,
   Box,
 } from "@mui/material";
 
@@ -58,6 +59,8 @@ const modelConfigTranslations = {
 
 function VideosPage({videoUrls}) {
 
+  const [cutConfidence, setCutConfidence] = useState(0);
+
   const getLabelSecondsName = (videoName) => {
     const nameWithoutExt = videoName.replace(/\.[^/.]+$/, "");
     const parts = nameWithoutExt.split("_");
@@ -71,60 +74,100 @@ function VideosPage({videoUrls}) {
     return `${label} ${time} ${parseFloat(conf).toFixed(3)}`;
   }
 
+  const maxConfidence = Math.max(
+    ...videoUrls.map((videoName) => {
+      const nameWithoutExt = videoName.replace(/\.[^/.]+$/, "");
+      const parts = nameWithoutExt.split("_");
+      const conf = parts[3].split(":")[1];
+      return parseFloat(conf);
+    })
+  );
+
   const getConfidenceCut = (videoName) => {
     const nameWithoutExt = videoName.replace(/\.[^/.]+$/, "");
     const parts = nameWithoutExt.split("_");
     const conf = parts[3].split(":")[1];
     const parsedConf = parseFloat(conf);
-    console.log(`Validating: ${videoName} confidences: ${parsedConf}, should display: ${parseFloat(conf) >= parseFloat(0.01)}`)
-    return parseFloat(conf) >= parseFloat(0.01);
+    console.log(`Validating: ${videoName} confidences: ${parsedConf}, should display: ${parseFloat(conf) >= parseFloat(cutConfidence)}`)
+    return parseFloat(conf) >= parseFloat(cutConfidence);
   }
+
+  const chunkArray = (array, size) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  };
+
+  const filteredVideos = videoUrls?.filter((videoUrl) =>
+    getConfidenceCut(videoUrl)
+  );
+  
+  const rows = chunkArray(filteredVideos, 3);
+  
 
   console.log(`f===> ${JSON.stringify(videoUrls)}`)
 
   return (
-    <Grid container spacing={4} justifyContent="center" sx={{ overflow: "visible" }} style={{ marginTop: "200px"}}>
-        {videoUrls.length === 0 && (
+    <div className="col-lg-12 justify-content-center align-items-center" style={{ height: '100%' }}>
+      <Grid className="justify-content-center align-items-center" container columns={1} spacing={6}>
+        {videoUrls.length === 0 ? (
           <h4> No clips or results from inference, try another id....</h4>
+        ) : (
+          <>
+            <h4>Confidence Filter: {parseFloat(cutConfidence).toFixed(3)}</h4>
+            <Slider
+              sx={{ mt: 1 }}
+              min={0}
+              max={maxConfidence}
+              step={0.01}
+              value={Math.min(cutConfidence, maxConfidence)}
+              onChange={(_, value) => setCutConfidence(value)}
+            />
+          </>
         )}
-        {videoUrls
-          ?.filter((videoUrl) => getConfidenceCut(videoUrl))
-          .map((videoUrl) => (
-            <Grid item xs={12} sm={12} md={12} key={videoUrl}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  overflow: "visible"
-                }}
-              >
-                <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
-                  <video
-                    controls
-                    preload="metadata"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      zIndex: 10
-                    }}
-                  >
-                    <source src={videoUrl} type="video/mp4" />
-                  </video>
-                </Box>
+          {rows.map((row, rowIndex) => (
+            <>
+            {row.map((videoUrl) => (
+              <Grid item xs={4} md={4} key={videoUrl}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    overflow: "visible",
+                    height: "100%"
+                  }}
+                >
+                  <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
+                    <video
+                      controls
+                      preload="metadata"
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 10
+                      }}
+                    >
+                      <source src={videoUrl} type="video/mp4" />
+                    </video>
+                  </Box>
 
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {getLabelSecondsName(videoUrl)}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          )
-        )}
+                  <CardContent>
+                    <Typography variant="h6" style={{ color: "#000" }}>
+                      {getLabelSecondsName(videoUrl)}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+            </>
+          ))}
       </Grid>
+    </div>
   );
 }
 
@@ -214,7 +257,7 @@ export default function StatusPanel({ loading, data, modelType}) {
 
   if ((data[envModelSet]?.s3_objects_list && data[envModelSet].s3_objects_list.length > 0)  || data.status === "finished") {
     return (
-      <div className="col-lg-12 d-flex justify-content-center align-items-center">
+      <div className="col-lg-12 justify-content-center align-items-center">
         <VideosPage videoUrls={data[envModelSet]?.s3_objects_list} />
       </div>
     )
